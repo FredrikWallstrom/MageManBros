@@ -9,12 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.screens.GameScreen;
 
 public class MageManBros extends Game {
-	public SpriteBatch batch;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-
 		setScreen(new GameScreen(this));
 	}
 
