@@ -1,10 +1,12 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.movableentity.MovableEntity;
 import com.mygdx.game.entity.movableentity.player.Player;
 import com.mygdx.game.entity.movableentity.player.PlayerMaker;
+import com.mygdx.game.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,6 @@ public class Game {
         return gameObjects;
     }
 
-    public void updateGame(float delta) {
-    }
+
 
 }

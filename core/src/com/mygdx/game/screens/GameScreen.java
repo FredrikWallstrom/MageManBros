@@ -24,9 +24,7 @@ import com.mygdx.game.entity.Entity;
  */
 
 public class GameScreen implements Screen {
-    private MageManBros window;
     private com.mygdx.game.Game currentGame;
-    private Texture texture;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private SpriteBatch batch;
@@ -37,16 +35,31 @@ public class GameScreen implements Screen {
 
 
     public GameScreen(MageManBros window){
-        this.window = window;
-        this.currentGame = new com.mygdx.game.Game();
         this.batch = new SpriteBatch();
+        this.currentGame = new com.mygdx.game.Game();
 
         gameCam = new OrthographicCamera();
+
         gamePort = new FitViewport(com.mygdx.game.Game.FRAME_WIDTH, com.mygdx.game.Game.FRAME_HEIGHT, gameCam);
 
-       // mapLoader = new TmxMapLoader();
-       // map = mapLoader.load("level1.tmx");
-       // renderer = new OrthogonalTiledMapRenderer(map);
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("level1.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map);
+
+        gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+
+    }
+
+    private void handleInput(float dt){
+        if (Gdx.input.isTouched()){
+            gameCam.position.x += 100 * dt;
+        }
+    }
+
+    private void updateGame(float delta) {
+        handleInput(delta);
+        gameCam.update();
+        renderer.setView(gameCam);
     }
 
     @Override
@@ -56,20 +69,23 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(gameCam.combined);
+        renderer.render();
         batch.begin();
         for (Entity object : currentGame.getGameObjects()) {
             object.draw(batch);
         }
         batch.end();
-        currentGame.updateGame(delta);
+        updateGame(delta);
     }
 
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
+
+        gameCam.update();
     }
 
     @Override
