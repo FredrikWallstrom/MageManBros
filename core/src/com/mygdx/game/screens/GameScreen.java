@@ -1,6 +1,5 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,14 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MageManBros;
-import com.mygdx.game.entity.Entity;
+import com.mygdx.game.scenes.Hud;
+
+import static com.badlogic.gdx.Gdx.gl;
 
 /**
  * Created by fredr on 2016-11-03.
@@ -25,29 +23,31 @@ import com.mygdx.game.entity.Entity;
 
 public class GameScreen implements Screen {
     private com.mygdx.game.Game currentGame;
+    private SpriteBatch batch;
+    private MageManBros window;
+
     private OrthographicCamera gameCam;
     private Viewport gamePort;
-    private SpriteBatch batch;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
+    private Hud hud;
+
 
     public GameScreen(MageManBros window){
+        this.window = window;
         this.batch = new SpriteBatch();
-        this.currentGame = new com.mygdx.game.Game();
 
         gameCam = new OrthographicCamera();
-
-        gamePort = new FitViewport(com.mygdx.game.Game.FRAME_WIDTH, com.mygdx.game.Game.FRAME_HEIGHT, gameCam);
+        gamePort = new StretchViewport(MageManBros.V_WIDTH, MageManBros.V_HEIGHT, gameCam);
+        hud = new Hud(batch);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
-
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
-
     }
 
     private void handleInput(float dt){
@@ -58,6 +58,7 @@ public class GameScreen implements Screen {
 
     private void updateGame(float delta) {
         handleInput(delta);
+
         gameCam.update();
         renderer.setView(gameCam);
     }
@@ -69,23 +70,27 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(gameCam.combined);
-        renderer.render();
-        batch.begin();
-        for (Entity object : currentGame.getGameObjects()) {
-            object.draw(batch);
-        }
-        batch.end();
         updateGame(delta);
+
+        gl.glClearColor(0, 0, 0, 1);
+        gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+        renderer.render();
+        batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+
+        //    batch.begin();
+        //    for (Entity object : currentGame.getGameObjects()) {
+        //        object.draw(batch);
+        //    }
+        //    batch.end();
+        //    updateGame(delta);
     }
 
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
-
-        gameCam.update();
     }
 
     @Override
