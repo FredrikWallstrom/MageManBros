@@ -18,8 +18,8 @@ import java.util.List;
 public class Game {
     private ArrayList<Entity> gameObjects;
 
-    public static final int FRAME_WIDTH = 800;
-    public static final int FRAME_HEIGHT = 480;
+    public static final int V_WIDTH = 400;
+    public static final int V_HEIGHT = 208;
 
 
 

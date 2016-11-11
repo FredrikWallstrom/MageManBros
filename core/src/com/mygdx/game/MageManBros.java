@@ -1,16 +1,13 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.mygdx.game.screens.GameScreen;
+import com.mygdx.game.screens.MenuScreen;
 
 public class MageManBros extends Game {
 
-	public static final int V_WIDTH = 400;
-	public static final int V_HEIGHT = 208;
-
 	@Override
 	public void create () {
-		setScreen(new GameScreen(this));
+		setScreen(new MenuScreen(this));
 	}
 
 	@Override

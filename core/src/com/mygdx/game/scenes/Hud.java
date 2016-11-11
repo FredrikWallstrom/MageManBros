@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Game;
 import com.mygdx.game.MageManBros;
 
 /**
@@ -34,7 +35,7 @@ public class Hud {
         timeCount = 0;
         score = 0;
 
-        viewport = new FitViewport(MageManBros.V_WIDTH, MageManBros.V_HEIGHT, new OrthographicCamera());
+        viewport = new FitViewport(Game.V_WIDTH, Game.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         Table table = new Table();

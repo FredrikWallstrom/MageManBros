@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Game;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.scenes.Hud;
 
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
         this.batch = new SpriteBatch();
 
         gameCam = new OrthographicCamera();
-        gamePort = new StretchViewport(MageManBros.V_WIDTH, MageManBros.V_HEIGHT, gameCam);
+        gamePort = new StretchViewport(Game.V_WIDTH, Game.V_HEIGHT, gameCam);
         hud = new Hud(batch);
 
         mapLoader = new TmxMapLoader();
