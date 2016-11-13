@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.scenes.Hud;
+import com.mygdx.game.tools.B2WorldCreator;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -67,65 +68,12 @@ public class GameScreen implements Screen {
         // Initially set our gamecam to be centered correctly at the start
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
+        // Create our Box2D world, setting no gravity in X and no gravity in Y, allows bodies to sleep
         world = new World(new Vector2(0, 0), true);
+        // Allows for debug lines of our Box2D world
         b2dr = new Box2DDebugRenderer();
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
-
-        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth() / 2, rect.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
+        new B2WorldCreator(world, map);
     }
 
     private void handleInput(float dt){
@@ -165,7 +113,7 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        
+
         //    batch.begin();
         //    for (Entity object : currentGame.getGameObjects()) {
         //        object.draw(batch);
@@ -196,6 +144,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
+        hud.dispose();
     }
 }
