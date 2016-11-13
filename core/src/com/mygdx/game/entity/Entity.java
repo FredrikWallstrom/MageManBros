@@ -2,19 +2,43 @@ package com.mygdx.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * Created by fredr on 2016-11-05.
  */
 
-public abstract class Entity {
-    private Sprite sprite;
+public abstract class Entity extends Sprite {
+  /*  private Sprite sprite;
     private Vector2 position;
     private Vector2 size;
+    private World world;
+    private TiledMap map;
+    private Rectangle bounds;
+    private TiledMapTile tile;
+    private Body body;*/
 
+    protected World world;
+    protected TiledMap map;
+    protected TiledMapRenderer tile;
+    protected Rectangle bounds;
 
+    public Entity(World world, TiledMap map, Rectangle bounds) {
+        this.world = world;
+        this.map = map;
+        this.bounds = bounds;
+    }
+
+    /*
     public abstract GameObject getGameObjectType();
+
+
 
     protected Entity(Sprite sprite, Vector2 position, Vector2 size) {
         this.sprite = sprite;
@@ -59,4 +83,6 @@ public abstract class Entity {
         this.size = size;
         sprite.setSize(size.x, size.y);
     }
+
+    */
 }

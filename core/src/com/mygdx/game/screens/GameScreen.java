@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Game;
 import com.mygdx.game.MageManBros;
+import com.mygdx.game.entity.Player;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.tools.B2WorldCreator;
 
@@ -35,9 +36,10 @@ import static com.badlogic.gdx.Gdx.gl;
 
 public class GameScreen implements Screen {
     private SpriteBatch batch;
+    private MageManBros window;
     private Hud hud;
 
-    // Camera and Viewprot variables
+    // Camera and Viewport variables
     private OrthographicCamera gameCam;
     private Viewport gamePort;
 
@@ -51,6 +53,7 @@ public class GameScreen implements Screen {
     private Box2DDebugRenderer b2dr;
 
     public GameScreen(MageManBros window){
+        this.window = window;
         this.batch = new SpriteBatch();
 
         // Create our game HUD for scores/timers/level info
@@ -73,7 +76,11 @@ public class GameScreen implements Screen {
         // Allows for debug lines of our Box2D world
         b2dr = new Box2DDebugRenderer();
 
+        // Create an instance of the world creator that render all fixtures
         new B2WorldCreator(world, map);
+
+        // Start the game
+        new Game(world, map);
     }
 
     private void handleInput(float dt){
@@ -84,6 +91,8 @@ public class GameScreen implements Screen {
 
     private void updateGame(float delta) {
         handleInput(delta);
+
+        world.step(1/60f, 6, 2);
 
         gameCam.update();
         renderer.setView(gameCam);
@@ -112,14 +121,6 @@ public class GameScreen implements Screen {
         // Set our batch to now draw what the Hud camera sees.
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-
-
-        //    batch.begin();
-        //    for (Entity object : currentGame.getGameObjects()) {
-        //        object.draw(batch);
-        //    }
-        //    batch.end();
-        //    updateGame(delta);
     }
 
     @Override

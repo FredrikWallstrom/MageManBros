@@ -21,8 +21,6 @@ public class MenuScreen implements Screen {
     private static final float BUTTON_SIZE_HEIGHT = 50;
     private MageManBros window;
 
-
-
     private Stage stage;
     private Texture myTexture;
     private TextureRegion myTextureRegion;

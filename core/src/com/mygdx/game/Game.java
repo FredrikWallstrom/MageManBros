@@ -1,48 +1,38 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.entity.Entity;
-import com.mygdx.game.entity.movableentity.MovableEntity;
-import com.mygdx.game.entity.movableentity.player.Player;
-import com.mygdx.game.entity.movableentity.player.PlayerMaker;
-import com.mygdx.game.screens.GameScreen;
+import com.mygdx.game.entity.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by fredr on 2016-11-05.
  */
 
 public class Game {
-    private ArrayList<Entity> gameObjects;
-
     public static final int V_WIDTH = 400;
     public static final int V_HEIGHT = 208;
 
-
-
-    private List<MovableEntity> objectsToRemove;
-
-    private Vector2 playerSpawnPoint;
+    private World world;
+    private TiledMap map;
 
     private Player player;
-    private PlayerMaker playerMaker;
+    private ArrayList<Entity> gameObjects;
 
-    private float enemySpawnTimer;
-    private float powerUpSpawnTimer;
-
-    private boolean gameOver;
-
-    public Game() {
+    public Game(World world, TiledMap map) {
+        this.world = world;
+        this.map = map;
         this.gameObjects = new ArrayList<Entity>();
-        this.playerMaker = new PlayerMaker(40, 40);
         createPlayer();
     }
 
     private void createPlayer() {
-        this.player = playerMaker.createPlayer();
+        player = new Player(world, map, new Rectangle(32, 32, 32, 32));
         gameObjects.add(player);
     }
 
