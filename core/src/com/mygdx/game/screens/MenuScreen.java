@@ -53,6 +53,7 @@ public class MenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                dispose();
                 Screen gameScreen = new GameScreen(window);
                 window.setScreen(gameScreen);
             }
@@ -86,6 +87,6 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }
