@@ -1,8 +1,12 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleShader;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -10,9 +14,16 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.Player;
+import com.mygdx.game.screens.GameScreen;
 
 import java.util.ArrayList;
 
@@ -21,10 +32,6 @@ import java.util.ArrayList;
  */
 
 public class Game {
-    public static final int V_WIDTH = 400;
-    public static final int V_HEIGHT = 208;
-    public static final float PPM = 100;
-
     // Tiled map variables
     private World world;
     private TiledMap map;
@@ -32,6 +39,9 @@ public class Game {
 
     // Camera and Viewport variables
     private OrthographicCamera gameCam;
+
+    // Stage for the Android setup, to add some buttons
+    private Stage stage;
 
     private Player player;
     private ArrayList<Entity> gameObjects;
@@ -42,6 +52,10 @@ public class Game {
         this.gameCam = gameCam;
         this.renderer = renderer;
         this.gameObjects = new ArrayList<Entity>();
+
+        // Check if the game is running on Android device, in that case, create extra buttons
+        if(Gdx.app.getType() == Application.ApplicationType.Android) createButtons();
+
         createPlayer();
     }
 
@@ -55,6 +69,8 @@ public class Game {
     }
 
     public void updateGame(float delta) {
+        // Check if the game is running on Android device, in that case, render extra buttons
+        if(Gdx.app.getType() == Application.ApplicationType.Android) stage.draw();
         handleInput(delta);
 
         world.step(1/60f, 6, 2);
@@ -76,6 +92,21 @@ public class Game {
         }
     }
 
+    private void createButtons(){
+        Texture myTexture;
+        TextureRegion myTextureRegion;
+        TextureRegionDrawable myTexRegionDrawable;
+        final ImageButton playButton;
 
+        myTexture = new Texture(Gdx.files.internal("playbtn.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        playButton = new ImageButton(myTexRegionDrawable); //Set the playButton up
+        playButton.setSize(MageManBros. BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        playButton.setPosition(0, 0);
 
+        stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
+        stage.addActor(playButton); //Add the playButton to the stage to perform rendering and take input.
+        Gdx.input.setInputProcessor(stage); //Start taking input from the ui
+    }
 }

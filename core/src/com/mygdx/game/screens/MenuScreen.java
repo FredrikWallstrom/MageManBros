@@ -17,8 +17,6 @@ import com.mygdx.game.MageManBros;
  */
 
 public class MenuScreen implements Screen {
-    private static final float BUTTON_SIZE_WIDTH = 100;
-    private static final float BUTTON_SIZE_HEIGHT = 50;
     private MageManBros window;
 
     private Stage stage;
@@ -40,9 +38,9 @@ public class MenuScreen implements Screen {
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         playButton = new ImageButton(myTexRegionDrawable); //Set the playButton up
-        playButton.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
-        playButton.setPosition(Gdx.graphics.getWidth() / 2 - (BUTTON_SIZE_WIDTH / 2),
-                            Gdx.graphics.getHeight() / 2 - (BUTTON_SIZE_HEIGHT / 2) );
+        playButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        playButton.setPosition(Gdx.graphics.getWidth() / 2 - (MageManBros.BUTTON_SIZE_WIDTH / 2),
+                            Gdx.graphics.getHeight() / 2 - (MageManBros.BUTTON_SIZE_HEIGHT / 2) );
 
         stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
         stage.addActor(playButton); //Add the playButton to the stage to perform rendering and take input.
