@@ -38,6 +38,7 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private MageManBros window;
     private Hud hud;
+    private Game currentGame;
 
     // Camera and Viewport variables
     private OrthographicCamera gameCam;
@@ -61,18 +62,18 @@ public class GameScreen implements Screen {
 
         // Create a StretchViewport and Camera to adjust the parallel projection.
         gameCam = new OrthographicCamera();
-        gamePort = new StretchViewport(Game.V_WIDTH, Game.V_HEIGHT, gameCam);
+        gamePort = new StretchViewport(Game.V_WIDTH / Game.PPM, Game.V_HEIGHT / Game.PPM, gameCam);
 
         // Load our map and setup our map renderer
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / Game.PPM);
 
         // Initially set our gamecam to be centered correctly at the start
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         // Create our Box2D world, setting no gravity in X and no gravity in Y, allows bodies to sleep
-        world = new World(new Vector2(0, 0), true);
+        world = new World(new Vector2(0, -10), true);
         // Allows for debug lines of our Box2D world
         b2dr = new Box2DDebugRenderer();
 
@@ -80,34 +81,11 @@ public class GameScreen implements Screen {
         new B2WorldCreator(world, map);
 
         // Start the game
-        new Game(world, map);
-    }
-
-    private void handleInput(float dt){
-        if (Gdx.input.isTouched()){
-            gameCam.position.x += 100 * dt;
-        }
-    }
-
-    private void updateGame(float delta) {
-        handleInput(delta);
-
-        world.step(1/60f, 6, 2);
-
-        gameCam.update();
-        renderer.setView(gameCam);
-    }
-
-    @Override
-    public void show() {
-
+        currentGame = new Game(world, map, gameCam, renderer);
     }
 
     @Override
     public void render(float delta) {
-        // Update logic
-        updateGame(delta);
-
         // Clear the game screen
         gl.glClearColor(0, 0, 0, 1);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -121,7 +99,13 @@ public class GameScreen implements Screen {
         // Set our batch to now draw what the Hud camera sees.
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+
+        // Update logic
+        currentGame.updateGame(delta);
     }
+
+    @Override
+    public void show() {}
 
     @Override
     public void resize(int width, int height) {
@@ -129,19 +113,13 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
