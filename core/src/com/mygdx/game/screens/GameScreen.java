@@ -5,44 +5,32 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.Game;
+import com.mygdx.game.game.AndroidGame;
+import com.mygdx.game.game.DesktopGame;
+import com.mygdx.game.game.Game;
 import com.mygdx.game.MageManBros;
-import com.mygdx.game.entity.Player;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.tools.B2WorldCreator;
 
 import static com.badlogic.gdx.Gdx.gl;
 
 /**
- * Created by fredr on 2016-11-03.
+ * Class that will display the core game screen.
+ * Will call on the game engine depend on if the game is running on android device
+ * or in desktop mode.
  */
 
 public class GameScreen implements Screen {
+
     private SpriteBatch batch;
     private MageManBros window;
     private Hud hud;
@@ -61,7 +49,7 @@ public class GameScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
-    public GameScreen(MageManBros window){
+    public GameScreen(MageManBros window) {
         this.window = window;
         this.batch = new SpriteBatch();
 
@@ -88,8 +76,10 @@ public class GameScreen implements Screen {
         // Create an instance of the world creator that render all fixtures
         new B2WorldCreator(world, map);
 
+        // Check if the game is running on Android device
         // Start the game
-        currentGame = new Game(world, map, gameCam, renderer);
+        if(Gdx.app.getType() == Application.ApplicationType.Android) currentGame = new AndroidGame(world, map, gameCam, renderer);
+        else currentGame = new DesktopGame(world, map, gameCam, renderer);
     }
 
     @Override
