@@ -27,6 +27,7 @@ public class AndroidGame extends Game {
 
     // Variables for detect if the move buttons is pressed
     private boolean isForwardTouched = false;
+    private boolean isBackwardTouched = false;
 
 
     public AndroidGame(World world, TiledMap map, OrthographicCamera gameCam, OrthogonalTiledMapRenderer renderer) {
@@ -37,9 +38,8 @@ public class AndroidGame extends Game {
     @Override
     public void updateGame(float delta){
         stage.draw();
-        if(isForwardTouched){
-            player.getBody().applyLinearImpulse(new Vector2(0.1f, 0), player.getBody().getWorldCenter(), true);
-        }
+        if(isForwardTouched) player.getBody().applyLinearImpulse(new Vector2(0.1f, 0), player.getBody().getWorldCenter(), true);
+        if(isBackwardTouched) player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
         super.updateGame(delta);
     }
 
@@ -76,6 +76,18 @@ public class AndroidGame extends Game {
             public void touchUp(InputEvent event, float x, float y,
                                 int pointer, int button) {
                 isForwardTouched = false;
+            }
+        });
+
+        backwardButton.addListener(new InputListener() {
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                isBackwardTouched = true;
+                return true;
+            }
+            public void touchUp(InputEvent event, float x, float y,
+                                int pointer, int button) {
+                isBackwardTouched = false;
             }
         });
     }
