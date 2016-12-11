@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  * Created by fredr on 2016-12-10.
  */
 
-public class AndroidGame extends Game {
+public class AndroidGame extends Game{
 
     // Stage for the Android setup, to add some buttons
     private Stage stage;
@@ -39,7 +39,8 @@ public class AndroidGame extends Game {
     public void updateGame(float delta){
         stage.draw();
         if(isForwardTouched) player.getBody().applyLinearImpulse(new Vector2(0.1f, 0), player.getBody().getWorldCenter(), true);
-        if(isBackwardTouched) player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
+        else if(isBackwardTouched) player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
+        else if(Gdx.input.justTouched()) player.getBody().applyLinearImpulse(new Vector2(0, 04), player.getBody().getWorldCenter(), true);
         super.updateGame(delta);
     }
 
