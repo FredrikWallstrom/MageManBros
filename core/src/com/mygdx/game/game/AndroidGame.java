@@ -49,17 +49,23 @@ public class AndroidGame extends Game{
     private void renderExtraButtons(){
         TextureRegionDrawable moveRegionDrawable;
         TextureRegionDrawable jumpRegionDrawable;
+        TextureRegionDrawable shootRegionDrawable;
         final ImageButton forwardButton;
         final ImageButton backwardButton;
         final ImageButton jumpButtonRight;
         final ImageButton jumpButtonLeft;
+        final ImageButton shootButtonRight;
+        final ImageButton shootButtonLeft;
 
         jumpRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("GreenButton-Active.png"))));
         moveRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("BlackButton-Active.png"))));
-        forwardButton = new ImageButton(moveRegionDrawable); //Set the forwardButton up
-        backwardButton = new ImageButton(moveRegionDrawable); //Set the backwardButton up
+        shootRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("RedButton-Active.png"))));
+        forwardButton = new ImageButton(moveRegionDrawable);
+        backwardButton = new ImageButton(moveRegionDrawable);
         jumpButtonRight = new ImageButton(jumpRegionDrawable);
         jumpButtonLeft = new ImageButton(jumpRegionDrawable);
+        shootButtonRight = new ImageButton(shootRegionDrawable);
+        shootButtonLeft = new ImageButton(shootRegionDrawable);
 
         forwardButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
         forwardButton.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, 0);
@@ -69,7 +75,10 @@ public class AndroidGame extends Game{
         jumpButtonRight.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT + 20);
         jumpButtonLeft.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
         jumpButtonLeft.setPosition(0, MageManBros.BUTTON_SIZE_HEIGHT + 20);
-
+        shootButtonRight.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        shootButtonRight.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT * 2 + 40);
+        shootButtonLeft.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        shootButtonLeft.setPosition(0, MageManBros.BUTTON_SIZE_HEIGHT * 2 + 40);
 
         stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
         // Add the buttons to the stage to perform rendering and take input.
@@ -77,6 +86,8 @@ public class AndroidGame extends Game{
         stage.addActor(backwardButton);
         stage.addActor(jumpButtonRight);
         stage.addActor(jumpButtonLeft);
+        stage.addActor(shootButtonLeft);
+        stage.addActor(shootButtonRight);
         Gdx.input.setInputProcessor(stage); //Start taking input from the ui
 
         forwardButton.addListener(new InputListener() {
@@ -109,8 +120,16 @@ public class AndroidGame extends Game{
                 player.getBody().applyLinearImpulse(new Vector2(0, 04), player.getBody().getWorldCenter(), true);
             }
         };
-
         jumpButtonLeft.addListener(jumpListener);
         jumpButtonRight.addListener(jumpListener);
+
+        ClickListener shootListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                // TODO, Shoot function should be implemented here.
+            }
+        };
+        shootButtonLeft.addListener(shootListener);
+        shootButtonRight.addListener(shootListener);
     }
 }
