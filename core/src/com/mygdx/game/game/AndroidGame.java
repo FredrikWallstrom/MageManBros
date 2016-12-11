@@ -13,8 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.mygdx.game.MageManBros;
+import com.mygdx.game.screens.GameScreen;
 
 /**
  * Created by fredr on 2016-12-10.
@@ -39,33 +42,41 @@ public class AndroidGame extends Game{
     public void updateGame(float delta){
         stage.draw();
         if(isForwardTouched) player.getBody().applyLinearImpulse(new Vector2(0.1f, 0), player.getBody().getWorldCenter(), true);
-        else if(isBackwardTouched) player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
-        else if(Gdx.input.justTouched()) player.getBody().applyLinearImpulse(new Vector2(0, 04), player.getBody().getWorldCenter(), true);
+        if(isBackwardTouched) player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
         super.updateGame(delta);
     }
 
     private void renderExtraButtons(){
-        Texture forwardTexture;
-        TextureRegion myTextureRegion;
-        TextureRegionDrawable myTexRegionDrawable;
+        TextureRegionDrawable moveRegionDrawable;
+        TextureRegionDrawable jumpRegionDrawable;
         final ImageButton forwardButton;
         final ImageButton backwardButton;
+        final ImageButton jumpButtonRight;
+        final ImageButton jumpButtonLeft;
 
-        forwardTexture = new Texture(Gdx.files.internal("BlackButton-Active.png"));
-        myTextureRegion = new TextureRegion(forwardTexture);
-        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        forwardButton = new ImageButton(myTexRegionDrawable); //Set the forwardButton up
-        backwardButton = new ImageButton(myTexRegionDrawable); //Set the backwardButton up
+        jumpRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("GreenButton-Active.png"))));
+        moveRegionDrawable = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("BlackButton-Active.png"))));
+        forwardButton = new ImageButton(moveRegionDrawable); //Set the forwardButton up
+        backwardButton = new ImageButton(moveRegionDrawable); //Set the backwardButton up
+        jumpButtonRight = new ImageButton(jumpRegionDrawable);
+        jumpButtonLeft = new ImageButton(jumpRegionDrawable);
 
-        forwardButton.setSize(com.mygdx.game.MageManBros. BUTTON_SIZE_WIDTH, com.mygdx.game.MageManBros.BUTTON_SIZE_HEIGHT);
-        forwardButton.setPosition(Gdx.graphics.getWidth() - com.mygdx.game.MageManBros.BUTTON_SIZE_WIDTH, 0);
-        backwardButton.setSize(com.mygdx.game.MageManBros. BUTTON_SIZE_WIDTH, com.mygdx.game.MageManBros.BUTTON_SIZE_HEIGHT);
+        forwardButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        forwardButton.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, 0);
+        backwardButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
         backwardButton.setPosition(0, 0);
+        jumpButtonRight.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        jumpButtonRight.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT + 20);
+        jumpButtonLeft.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        jumpButtonLeft.setPosition(0, MageManBros.BUTTON_SIZE_HEIGHT + 20);
+
 
         stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
         // Add the buttons to the stage to perform rendering and take input.
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
+        stage.addActor(jumpButtonRight);
+        stage.addActor(jumpButtonLeft);
         Gdx.input.setInputProcessor(stage); //Start taking input from the ui
 
         forwardButton.addListener(new InputListener() {
@@ -91,5 +102,15 @@ public class AndroidGame extends Game{
                 isBackwardTouched = false;
             }
         });
+
+        ClickListener jumpListener = new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                player.getBody().applyLinearImpulse(new Vector2(0, 04), player.getBody().getWorldCenter(), true);
+            }
+        };
+
+        jumpButtonLeft.addListener(jumpListener);
+        jumpButtonRight.addListener(jumpListener);
     }
 }
