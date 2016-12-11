@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -43,20 +44,27 @@ public class AndroidGame extends Game {
     }
 
     private void renderExtraButtons(){
-        Texture myTexture;
+        Texture forwardTexture;
         TextureRegion myTextureRegion;
         TextureRegionDrawable myTexRegionDrawable;
         final ImageButton forwardButton;
+        final ImageButton backwardButton;
 
-        myTexture = new Texture(Gdx.files.internal("BlueButton-Active.png"));
-        myTextureRegion = new TextureRegion(myTexture);
+        forwardTexture = new Texture(Gdx.files.internal("BlackButton-Active.png"));
+        myTextureRegion = new TextureRegion(forwardTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         forwardButton = new ImageButton(myTexRegionDrawable); //Set the forwardButton up
+        backwardButton = new ImageButton(myTexRegionDrawable); //Set the backwardButton up
+
         forwardButton.setSize(com.mygdx.game.MageManBros. BUTTON_SIZE_WIDTH, com.mygdx.game.MageManBros.BUTTON_SIZE_HEIGHT);
         forwardButton.setPosition(Gdx.graphics.getWidth() - com.mygdx.game.MageManBros.BUTTON_SIZE_WIDTH, 0);
+        backwardButton.setSize(com.mygdx.game.MageManBros. BUTTON_SIZE_WIDTH, com.mygdx.game.MageManBros.BUTTON_SIZE_HEIGHT);
+        backwardButton.setPosition(0, 0);
 
         stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
-        stage.addActor(forwardButton); //Add the playButton to the stage to perform rendering and take input.
+        // Add the buttons to the stage to perform rendering and take input.
+        stage.addActor(forwardButton);
+        stage.addActor(backwardButton);
         Gdx.input.setInputProcessor(stage); //Start taking input from the ui
 
         forwardButton.addListener(new InputListener() {
