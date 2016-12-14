@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.game.Game;
 
 /**
  * Created by fredr on 2016-11-05.
@@ -29,7 +30,8 @@ public abstract class Entity extends Sprite {
     protected TiledMapRenderer tile;
     protected Rectangle bounds;
 
-    public Entity(World world, TiledMap map, Rectangle bounds) {
+    public Entity(World world, TiledMap map, Rectangle bounds, Game game) {
+        super(game.getAtlas().findRegion("megaman"));
         this.world = world;
         this.map = map;
         this.bounds = bounds;

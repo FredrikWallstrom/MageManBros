@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,6 +21,7 @@ import com.mygdx.game.game.Game;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.tools.B2WorldCreator;
+import com.sun.corba.se.impl.orb.ParserTable;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -36,6 +38,8 @@ public class GameScreen implements Screen {
     private Hud hud;
     private Game currentGame;
 
+
+
     // Camera and Viewport variables
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -49,12 +53,16 @@ public class GameScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
+
+
     public GameScreen(MageManBros window) {
         this.window = window;
         this.batch = new SpriteBatch();
 
         // Create our game HUD for scores/timers/level info
         this.hud = new Hud(batch);
+
+
 
         // Create a StretchViewport and Camera to adjust the parallel projection.
         gameCam = new OrthographicCamera();
@@ -99,7 +107,7 @@ public class GameScreen implements Screen {
         hud.stage.draw();
 
         // Update logic
-        currentGame.updateGame(delta);
+        currentGame.updateGame(delta, batch);
     }
 
     @Override

@@ -1,0 +1,12 @@
+MegaMan.png
+size: 768, 122
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+megaman
+  rotate: false
+  xy: 0, 0
+  size: 768, 122
+  orig: 768, 122
+  offset: 0, 0
+  index: -1

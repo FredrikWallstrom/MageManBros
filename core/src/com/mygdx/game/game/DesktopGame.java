@@ -1,6 +1,7 @@
 package com.mygdx.game.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -16,8 +17,8 @@ public class DesktopGame extends Game {
     }
 
     @Override
-    public void updateGame(float delta){
+    public void updateGame(float delta, SpriteBatch batch){
         handleInput(delta);
-        super.updateGame(delta);
+        super.updateGame(delta, batch);
     }
 }
