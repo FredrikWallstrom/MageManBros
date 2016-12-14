@@ -1,95 +1,95 @@
 MegaMan.png
-size: 230, 108
+size: 516, 58
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 jumpLeft
   rotate: false
-  xy: 191, 52
+  xy: 1, 1
   size: 33, 56
   orig: 33, 56
   offset: 0, 0
   index: -1
 jumpRight
   rotate: false
-  xy: 158, 52
+  xy: 39, 1
   size: 33, 56
   orig: 33, 56
   offset: 0, 0
   index: -1
 runRight1
   rotate: false
-  xy: 198, 0
+  xy: 77, 1
   size: 32, 52
   orig: 32, 52
   offset: 0, 0
   index: -1
 runRight2
   rotate: false
-  xy: 166, 0
+  xy: 114, 1
   size: 32, 52
   orig: 32, 52
   offset: 0, 0
   index: -1
 runRight3
   rotate: false
-  xy: 134, 0
+  xy: 151, 1
   size: 32, 52
   orig: 32, 52
   offset: 0, 0
   index: -1
 runRight4
   rotate: false
-  xy: 0, 0
+  xy: 188, 1
   size: 38, 50
   orig: 38, 50
   offset: 0, 0
   index: -1
 runRight5
   rotate: false
-  xy: 38, 0
+  xy: 231, 1
   size: 32, 51
   orig: 32, 51
   offset: 0, 0
   index: -1
 runRight6
   rotate: false
-  xy: 102, 0
+  xy: 268, 1
   size: 32, 52
   orig: 32, 52
   offset: 0, 0
   index: -1
 runRight7
   rotate: false
-  xy: 70, 0
+  xy: 305, 1
   size: 32, 52
   orig: 32, 52
   offset: 0, 0
   index: -1
 shootLeft
   rotate: false
-  xy: 116, 52
+  xy: 342, 1
   size: 42, 53
   orig: 42, 53
   offset: 0, 0
   index: -1
 shootRight
   rotate: false
-  xy: 37, 52
+  xy: 389, 1
   size: 42, 53
   orig: 42, 53
   offset: 0, 0
   index: -1
 standLeft
   rotate: false
-  xy: 0, 52
+  xy: 436, 1
   size: 37, 53
   orig: 37, 53
   offset: 0, 0
   index: -1
 standRight
   rotate: false
-  xy: 79, 52
+  xy: 478, 1
   size: 37, 53
   orig: 37, 53
   offset: 0, 0
