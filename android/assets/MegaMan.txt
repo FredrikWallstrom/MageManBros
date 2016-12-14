@@ -1,33 +1,61 @@
 MegaMan.png
-size: 150, 56
+size: 300, 56
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-0
+jumpLeft
   rotate: false
   xy: 0, 0
-  size: 37, 53
-  orig: 37, 53
-  offset: 0, 0
-  index: -1
-1
-  rotate: false
-  xy: 37, 0
-  size: 38, 50
-  orig: 38, 50
-  offset: 0, 0
-  index: -1
-2
-  rotate: false
-  xy: 75, 0
   size: 33, 56
   orig: 33, 56
   offset: 0, 0
   index: -1
-3
+jumpRight
+  rotate: false
+  xy: 33, 0
+  size: 33, 56
+  orig: 33, 56
+  offset: 0, 0
+  index: -1
+shootLeft
+  rotate: false
+  xy: 66, 0
+  size: 42, 53
+  orig: 42, 53
+  offset: 0, 0
+  index: -1
+shootRight
   rotate: false
   xy: 108, 0
   size: 42, 53
   orig: 42, 53
+  offset: 0, 0
+  index: -1
+standLeft
+  rotate: false
+  xy: 150, 0
+  size: 37, 53
+  orig: 37, 53
+  offset: 0, 0
+  index: -1
+standRight
+  rotate: false
+  xy: 187, 0
+  size: 37, 53
+  orig: 37, 53
+  offset: 0, 0
+  index: -1
+walkLeft
+  rotate: false
+  xy: 224, 0
+  size: 38, 50
+  orig: 38, 50
+  offset: 0, 0
+  index: -1
+walkRight
+  rotate: false
+  xy: 262, 0
+  size: 38, 50
+  orig: 38, 50
   offset: 0, 0
   index: -1

@@ -31,7 +31,7 @@ public abstract class Entity extends Sprite {
     protected Rectangle bounds;
 
     public Entity(World world, TiledMap map, Rectangle bounds, Game game) {
-        super(game.getAtlas().findRegion("0"));
+        super(game.getAtlas().findRegion("standRight"));
         this.world = world;
         this.map = map;
         this.bounds = bounds;

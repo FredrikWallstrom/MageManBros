@@ -42,7 +42,8 @@ public class Player extends Entity{
         fdef.shape = shape;
         body.createFixture(fdef);
 
-        megaManStand = new TextureRegion(getTexture(), 0, 0, 36, 50);
+        // Attach the image to the player
+        megaManStand = new TextureRegion(getTexture(), 187, 0, 37, 53);
         setBounds(0, 0, 16 / MageManBros.PPM, 16 / MageManBros.PPM);
         setRegion(megaManStand);
 
