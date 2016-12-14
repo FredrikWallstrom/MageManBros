@@ -42,7 +42,7 @@ public class Player extends Entity{
         fdef.shape = shape;
         body.createFixture(fdef);
 
-        megaManStand = new TextureRegion(getTexture(), 0, 0, 16, 16);
+        megaManStand = new TextureRegion(getTexture(), 0, 0, 36, 50);
         setBounds(0, 0, 16 / MageManBros.PPM, 16 / MageManBros.PPM);
         setRegion(megaManStand);
 
