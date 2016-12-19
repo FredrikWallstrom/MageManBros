@@ -1,0 +1,33 @@
+MegaManClimb.png
+size: 48, 234
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+rope1
+  rotate: false
+  xy: 0, 0
+  size: 48, 59
+  orig: 48, 59
+  offset: 0, 0
+  index: -1
+rope2
+  rotate: false
+  xy: 0, 59
+  size: 48, 60
+  orig: 48, 60
+  offset: 0, 0
+  index: -1
+rope3
+  rotate: false
+  xy: 0, 119
+  size: 45, 62
+  orig: 45, 62
+  offset: 0, 0
+  index: -1
+shootFromRope
+  rotate: false
+  xy: 0, 181
+  size: 46, 53
+  orig: 46, 53
+  offset: 0, 0
+  index: -1
