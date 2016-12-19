@@ -1,0 +1,54 @@
+MegaManRunning.png
+size: 262, 54
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+runRight1
+  rotate: false
+  xy: 1, 1
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight2
+  rotate: false
+  xy: 38, 1
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight3
+  rotate: false
+  xy: 75, 1
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight4
+  rotate: false
+  xy: 112, 1
+  size: 38, 50
+  orig: 38, 50
+  offset: 0, 0
+  index: -1
+runRight5
+  rotate: false
+  xy: 155, 1
+  size: 32, 51
+  orig: 32, 51
+  offset: 0, 0
+  index: -1
+runRight6
+  rotate: false
+  xy: 192, 1
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight7
+  rotate: false
+  xy: 229, 1
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
