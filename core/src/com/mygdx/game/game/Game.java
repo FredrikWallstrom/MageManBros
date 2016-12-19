@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.Player;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 
 import java.util.ArrayList;
@@ -38,7 +39,9 @@ public abstract class Game {
     // List of all objects in the game
     private ArrayList<Entity> gameObjects;
 
+    // TextureAtlas for ths picture sheets
     private TextureAtlas atlas;
+
 
     public Game(World world, TiledMap map, OrthographicCamera gameCam, OrthogonalTiledMapRenderer renderer) {
         this.world = world;
@@ -50,6 +53,7 @@ public abstract class Game {
 
         createPlayer();
     }
+
 
     private void createPlayer() {
         player = new Player(world, map, new Rectangle(32, 32, 32, 32), this);
@@ -76,10 +80,6 @@ public abstract class Game {
         batch.end();
     }
 
-    public TextureAtlas getAtlas() {
-        return atlas;
-    }
-
     protected void handleInput(float dt){
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
             player.getBody().applyLinearImpulse(new Vector2(0, 04), player.getBody().getWorldCenter(), true);
@@ -92,7 +92,8 @@ public abstract class Game {
         }
     }
 
+    public TextureAtlas getAtlas() {
+        return atlas;
 
-
-
+    }
 }
