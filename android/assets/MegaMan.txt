@@ -1,46 +1,151 @@
 MegaMan.png
-size: 122, 208
+size: 854, 91
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 creep
   rotate: false
-  xy: 1, 1
+  xy: 3, 3
   size: 51, 60
   orig: 51, 60
   offset: 0, 0
   index: -1
 jumpRight
   rotate: false
-  xy: 56, 1
+  xy: 58, 3
   size: 33, 56
   orig: 33, 56
   offset: 0, 0
   index: -1
+rope1
+  rotate: false
+  xy: 95, 3
+  size: 48, 59
+  orig: 48, 59
+  offset: 0, 0
+  index: -1
+rope2
+  rotate: false
+  xy: 147, 3
+  size: 48, 60
+  orig: 48, 60
+  offset: 0, 0
+  index: -1
+rope3
+  rotate: false
+  xy: 199, 3
+  size: 45, 62
+  orig: 45, 62
+  offset: 0, 0
+  index: -1
+runRight1
+  rotate: false
+  xy: 248, 3
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight2
+  rotate: false
+  xy: 284, 3
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight3
+  rotate: false
+  xy: 320, 3
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight4
+  rotate: false
+  xy: 356, 3
+  size: 38, 50
+  orig: 38, 50
+  offset: 0, 0
+  index: -1
+runRight5
+  rotate: false
+  xy: 398, 3
+  size: 32, 51
+  orig: 32, 51
+  offset: 0, 0
+  index: -1
+runRight6
+  rotate: false
+  xy: 434, 3
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+runRight7
+  rotate: false
+  xy: 470, 3
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+shootFromRope
+  rotate: false
+  xy: 506, 3
+  size: 46, 53
+  orig: 46, 53
+  offset: 0, 0
+  index: -1
+shootingAction1
+  rotate: false
+  xy: 556, 3
+  size: 23, 11
+  orig: 23, 11
+  offset: 0, 0
+  index: -1
+shootingAction2
+  rotate: false
+  xy: 583, 3
+  size: 23, 11
+  orig: 23, 11
+  offset: 0, 0
+  index: -1
+shootingAction3
+  rotate: false
+  xy: 610, 3
+  size: 16, 11
+  orig: 16, 11
+  offset: 0, 0
+  index: -1
+shootingBall
+  rotate: false
+  xy: 630, 3
+  size: 10, 9
+  orig: 10, 9
+  offset: 0, 0
+  index: -1
 shootRight
   rotate: false
-  xy: 1, 65
+  xy: 644, 3
   size: 42, 53
   orig: 42, 53
   offset: 0, 0
   index: -1
 standRight
   rotate: false
-  xy: 47, 65
+  xy: 690, 3
   size: 37, 53
   orig: 37, 53
   offset: 0, 0
   index: -1
 super1
   rotate: false
-  xy: 1, 122
+  xy: 731, 3
   size: 53, 68
   orig: 53, 68
   offset: 0, 0
   index: -1
 super2
   rotate: false
-  xy: 58, 122
+  xy: 788, 3
   size: 63, 85
   orig: 63, 85
   offset: 0, 0
