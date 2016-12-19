@@ -43,9 +43,14 @@ public class Player extends Entity{
 
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 2; i < 8; i++) {
-            frames.add(new TextureRegion(getTexture(), i*38, 1, 36 ,52));
+
+        // TODO The animation is working, Need to remove the 3 picture since it is to big
+        // TODO and will make the animation to look aweful. Dont got time with that now, will do it later.
+        for (int i = 0; i < 6; i++) {
+            if(i > 3)frames.add(new TextureRegion(getTexture(), (40 * (i-4)) + 434, 3, 32, 52));
+            else if(i < 3) frames.add(new TextureRegion(getTexture(), (40 * i) + 268, 3, 32, 52));
         }
+
         megaManRun = new Animation(0.1f, frames);
         frames.clear();
 
@@ -63,8 +68,8 @@ public class Player extends Entity{
         body.createFixture(fdef);
 
         // Attach the image to the player, depending on the STATE
-        megaManJump = new TextureRegion(getTexture(), 39, 1, 33, 56);
-        megaManStand = new TextureRegion(getTexture(), 478, 1, 37, 53);
+        megaManJump = new TextureRegion(getTexture(), 62, 3, 33, 56);
+        megaManStand = new TextureRegion(getTexture(), 762, 3, 37, 53);
         setBounds(0, 0, 16 / MageManBros.PPM, 16 / MageManBros.PPM);
         setRegion(megaManStand);
 
