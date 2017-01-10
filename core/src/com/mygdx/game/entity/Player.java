@@ -66,7 +66,7 @@ public class Player extends Entity {
         fdef.shape = shape;
         body.createFixture(fdef);
 
-        /* Attach the image to the player, depending on the STATE*/
+        /* Attach the image to the player, depending on the STATE */
         megaManJump = new TextureRegion(getTexture(), 62, 3, 33, 56);
         megaManStand = new TextureRegion(getTexture(), 762, 3, 37, 53);
         megaManShoot = new TextureRegion(getTexture(), 712, 3, 42, 53);
@@ -77,6 +77,7 @@ public class Player extends Entity {
         setBounds(0, 0, 16 / MageManBros.PPM, 16 / MageManBros.PPM);
     }
 
+    @Override
     public void update(float dt) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));

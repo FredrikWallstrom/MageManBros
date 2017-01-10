@@ -11,7 +11,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.entity.GameObject;
 import com.mygdx.game.entity.Player;
+import com.mygdx.game.entity.Shoot;
 
 
 import java.util.ArrayList;
@@ -30,7 +32,8 @@ public abstract class Game {
     protected OrthographicCamera gameCam;
 
     // The only player in the game
-    protected Player player;
+    public static Player player;
+    protected Shoot shoot;
 
     // List of all objects in the game
     private ArrayList<Entity> gameObjects;
@@ -63,7 +66,10 @@ public abstract class Game {
 
     public void updateGame(float delta, SpriteBatch batch) {
         world.step(1/60f, 6, 2);
-        player.update(delta);
+        for (Entity entity: getGameObjects()) {
+            entity.update(delta);
+
+        }
         gameCam.position.x = player.getBody().getPosition().x;
         gameCam.update();
 
@@ -72,7 +78,9 @@ public abstract class Game {
         // Render the attached fixture on the body
         batch.setProjectionMatrix(gameCam.combined);
         batch.begin();
-        player.draw(batch);
+        for (Entity entity: getGameObjects()) {
+            entity.draw(batch);
+        }
         batch.end();
     }
 
@@ -86,6 +94,14 @@ public abstract class Game {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.getBody().getLinearVelocity().x >= -2){
             player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            createShoot();
+        }
+        }
+
+    private void createShoot() {
+        Shoot shoot = new Shoot(world, map, new Rectangle(32, 32, 32, 32), this);
+        gameObjects.add(shoot);
 
     }
 
