@@ -86,6 +86,7 @@ public abstract class Game {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.getBody().getLinearVelocity().x >= -2){
             player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
         }
+
     }
 
     public TextureAtlas getAtlas() {

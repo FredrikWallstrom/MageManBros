@@ -20,7 +20,7 @@ import com.mygdx.game.game.Game;
  */
 
 public class Player extends Entity {
-    public enum State {JUMPING, STANDING, RUNNING, CROUCHING}
+    public enum State {JUMPING, STANDING, RUNNING, CROUCHING, SHOOTING}
 
     public State currentState;
     public State previousState;
@@ -34,6 +34,7 @@ public class Player extends Entity {
     private TextureRegion megaManStand;
     private TextureRegion megaManJump;
     private TextureRegion megaManCrouch;
+    private TextureRegion megaManShoot;
 
     public Player(World world, TiledMap map, Rectangle bounds, Game game) {
         super(world, map, bounds, game);
@@ -68,6 +69,7 @@ public class Player extends Entity {
         /* Attach the image to the player, depending on the STATE*/
         megaManJump = new TextureRegion(getTexture(), 62, 3, 33, 56);
         megaManStand = new TextureRegion(getTexture(), 762, 3, 37, 53);
+        megaManShoot = new TextureRegion(getTexture(), 712, 3, 42, 53);
         megaManCrouch = new TextureRegion(getTexture(), 3, 3, 51, 60);
         megaManCrouch.setRegionHeight(50);
         megaManCrouch.setRegionWidth(50);
@@ -84,6 +86,9 @@ public class Player extends Entity {
         currentState = getState();
         TextureRegion region;
         switch (currentState) {
+            case SHOOTING:
+                region = megaManShoot;
+                break;
             case JUMPING:
                 region = megaManJump;
                 break;
@@ -116,7 +121,9 @@ public class Player extends Entity {
     }
 
     public State getState() {
-        if (body.getLinearVelocity().y != 0 || (body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            return State.SHOOTING;
+        } else if (body.getLinearVelocity().y != 0 || (body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
             return State.JUMPING;
         } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             return State.RUNNING;
