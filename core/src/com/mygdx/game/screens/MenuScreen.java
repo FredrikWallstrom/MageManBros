@@ -30,7 +30,7 @@ public class MenuScreen implements Screen {
     }
 
     /**
-     * interfacemethod
+     * interfaceMethod
      * called when screen is set with SetScreen
      */
     @Override public void show() {

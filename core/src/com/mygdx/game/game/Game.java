@@ -9,11 +9,17 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.GameObject;
 import com.mygdx.game.entity.Player;
 import com.mygdx.game.entity.Shoot;
+import com.mygdx.game.tools.MyContactListener;
 
 
 import java.util.ArrayList;
@@ -41,6 +47,9 @@ public abstract class Game {
     // TextureAtlas for ths picture sheets
     private TextureAtlas atlas;
 
+    // ContactListener
+    private MyContactListener myContactListener = new MyContactListener();
+
 
     public Game(World world, TiledMap map, OrthographicCamera gameCam, OrthogonalTiledMapRenderer renderer) {
         this.world = world;
@@ -50,6 +59,7 @@ public abstract class Game {
         this.gameObjects = new ArrayList<Entity>();
         this.atlas = new TextureAtlas("MegaMan.txt");
 
+        world.setContactListener(myContactListener);
         createPlayer();
     }
 
@@ -66,7 +76,7 @@ public abstract class Game {
 
     public void updateGame(float delta, SpriteBatch batch) {
         world.step(1/60f, 6, 2);
-        for (Entity entity: getGameObjects()) {
+        for (Entity entity : getGameObjects()) {
             entity.update(delta);
 
         }
@@ -102,11 +112,9 @@ public abstract class Game {
     private void createShoot() {
         Shoot shoot = new Shoot(world, map, new Rectangle(32, 32, 32, 32), this);
         gameObjects.add(shoot);
-
     }
 
     public TextureAtlas getAtlas() {
         return atlas;
-
     }
 }

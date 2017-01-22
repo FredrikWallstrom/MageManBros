@@ -21,7 +21,6 @@ import com.mygdx.game.game.Game;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.scenes.Hud;
 import com.mygdx.game.tools.B2WorldCreator;
-import com.sun.corba.se.impl.orb.ParserTable;
 
 import static com.badlogic.gdx.Gdx.gl;
 
@@ -37,7 +36,6 @@ public class GameScreen implements Screen {
     private MageManBros window;
     private Hud hud;
     private Game currentGame;
-
 
 
     // Camera and Viewport variables

@@ -2,16 +2,23 @@ package com.mygdx.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.game.Game;
+
+import static com.mygdx.game.MageManBros.PPM;
 
 /**
  * Created by fredrikwallstrom on 2017-01-10.
@@ -37,10 +44,10 @@ public class Shoot extends Entity {
         // Check if the player is running left or right, to put the object at the right place.
         if (Game.player.isRunningRight()){
             activeShoots.add(true);
-            bdef.position.set(Game.player.getX() + Game.player.getWidth(), Game.player.getY() + (Game.player.getHeight()/2));
+            bdef.position.set(Game.player.getX() + Game.player.getWidth() + (2 / PPM), Game.player.getY() + (Game.player.getHeight()/2));
         }else{
             activeShoots.add(false);
-            bdef.position.set(Game.player.getX(), Game.player.getY() + (Game.player.getHeight()/2));
+            bdef.position.set(Game.player.getX() - (2 / PPM), Game.player.getY() + (Game.player.getHeight()/2));
         }
 
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -48,12 +55,13 @@ public class Shoot extends Entity {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(2 / MageManBros.PPM);
+        shape.setRadius(2 / PPM);
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setGravityScale(0);
 
-        setBounds(0, 0, 4 / MageManBros.PPM, 4 / MageManBros.PPM);
+        setBounds(0, 0, 4 / PPM, 4 / PPM);
+        body.setUserData(this);
     }
 
     @Override
@@ -62,12 +70,17 @@ public class Shoot extends Entity {
         // Go through the array with the active shoots, see if they should be renderer to left or right.
         for (Boolean isShootRight : activeShoots) {
             if(isShootRight){
-                setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+                setPosition(body.getPosition().x - getWidth() / 2 , body.getPosition().y - getHeight() / 2);
                 body.setLinearVelocity(2.5f, 0);
             }else{
                 setPosition(body.getPosition().x, body.getPosition().y - getHeight() / 2);
                 body.setLinearVelocity(-2.5f, 0);
             }
         }
+
     }
+
+
+
+
 }
