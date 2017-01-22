@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MageManBros;
 import com.mygdx.game.game.Game;
 
@@ -18,14 +19,30 @@ import com.mygdx.game.game.Game;
 
 public class Shoot extends Entity {
 
-    Body body;
+    // Body for the shoot entity.
+    private Body body;
 
+    // Array to store if the active shoots is to the left or right. True if right, false if left.
+    private Array<Boolean> activeShoots = new Array<Boolean>();
+
+    /**
+     * Constructor to initialize the shoot object.
+     * Creates a circle body for the shoot, with no gravity.
+     */
     public Shoot(World world, TiledMap map, Rectangle bounds, Game game) {
         super(world, map, bounds, game);
 
         BodyDef bdef = new BodyDef();
 
-        bdef.position.set(Game.player.getX() + Game.player.getWidth(), Game.player.getY() + (Game.player.getHeight()/2));
+        // Check if the player is running left or right, to put the object at the right place.
+        if (Game.player.isRunningRight()){
+            activeShoots.add(true);
+            bdef.position.set(Game.player.getX() + Game.player.getWidth(), Game.player.getY() + (Game.player.getHeight()/2));
+        }else{
+            activeShoots.add(false);
+            bdef.position.set(Game.player.getX(), Game.player.getY() + (Game.player.getHeight()/2));
+        }
+
         bdef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bdef);
 
@@ -41,8 +58,16 @@ public class Shoot extends Entity {
 
     @Override
     public void update(float dt) {
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(new TextureRegion(getTexture(), 694, 3, 10, 9));
-        body.setLinearVelocity(2.5f, 0);
+        // Go through the array with the active shoots, see if they should be renderer to left or right.
+        for (Boolean isShootRight : activeShoots) {
+            if(isShootRight){
+                setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+                body.setLinearVelocity(2.5f, 0);
+            }else{
+                setPosition(body.getPosition().x, body.getPosition().y - getHeight() / 2);
+                body.setLinearVelocity(-2.5f, 0);
+            }
+        }
     }
 }

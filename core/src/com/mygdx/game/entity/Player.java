@@ -27,7 +27,7 @@ public class Player extends Entity {
 
     private Body body;
     private Animation megaManRun;
-    private boolean runningRight;
+    protected boolean runningRight;
     private float stateTimer;
 
     /* Texture region that will be applied for the image to the player*/
@@ -135,6 +135,10 @@ public class Player extends Entity {
         } else if (body.getLinearVelocity().x != 0) {
             return State.RUNNING;
         } else return State.STANDING;
+    }
+
+    public boolean isRunningRight() {
+        return runningRight;
     }
 
     public Body getBody() {
