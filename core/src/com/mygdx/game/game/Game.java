@@ -9,17 +9,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.entity.Entity;
-import com.mygdx.game.entity.GameObject;
 import com.mygdx.game.entity.Player;
 import com.mygdx.game.entity.Shoot;
-import com.mygdx.game.tools.MyContactListener;
 
 
 import java.util.ArrayList;
@@ -117,4 +115,45 @@ public abstract class Game {
     public TextureAtlas getAtlas() {
         return atlas;
     }
+
+
+
+    private class MyContactListener implements ContactListener {
+
+        @Override
+        public void beginContact(Contact contact) {
+            Fixture fixtureA = contact.getFixtureA();
+            Fixture fixtureB = contact.getFixtureB();
+
+            // A shoot is colliding with a wall.
+            if ((fixtureA.getBody().getUserData() == null || fixtureB.getBody().getUserData() == null)){
+
+                if(fixtureA.getBody().getUserData() instanceof Shoot){
+                    gameObjects.remove(fixtureA.getBody().getUserData());
+                    world.destroyBody(fixtureA.getBody());
+                    ((Shoot) fixtureA.getBody().getUserData()).stopRenderEntity();
+                }else if(fixtureB.getBody().getUserData() instanceof Shoot) {
+                    gameObjects.remove(fixtureB.getBody().getUserData());
+                    world.destroyBody(fixtureB.getBody());
+                    ((Shoot) fixtureB.getBody().getUserData()).stopRenderEntity();
+                }
+            }
+        }
+
+        @Override
+        public void endContact(Contact contact) {
+
+        }
+
+        @Override
+        public void preSolve(Contact contact, Manifold oldManifold) {
+
+        }
+
+        @Override
+        public void postSolve(Contact contact, ContactImpulse impulse) {
+
+        }
+    }
 }
+

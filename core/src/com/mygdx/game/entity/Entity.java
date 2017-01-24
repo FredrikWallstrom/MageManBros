@@ -45,6 +45,9 @@ public abstract class Entity extends Sprite {
     public void update(float dt) {
     }
 
+    public void stopRenderEntity(){
+
+    }
 
     /*
     public abstract GameObject getGameObjectType();
