@@ -9,12 +9,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.Player;
 import com.mygdx.game.entity.Shoot;
@@ -48,6 +50,9 @@ public abstract class Game {
     // ContactListener
     private MyContactListener myContactListener = new MyContactListener();
 
+    private boolean removeBody = false;
+    private Array<Body> bodiesToRemove = new Array<Body>();
+
 
     public Game(World world, TiledMap map, OrthographicCamera gameCam, OrthogonalTiledMapRenderer renderer) {
         this.world = world;
@@ -73,7 +78,20 @@ public abstract class Game {
     }
 
     public void updateGame(float delta, SpriteBatch batch) {
+
+
         world.step(1/60f, 6, 2);
+
+        if(removeBody){
+            for (Body body : bodiesToRemove) {
+                gameObjects.remove(body.getUserData());
+                world.destroyBody(body);
+            }
+            bodiesToRemove.clear();
+        }
+
+
+
         for (Entity entity : getGameObjects()) {
             entity.update(delta);
 
@@ -129,15 +147,16 @@ public abstract class Game {
             if ((fixtureA.getBody().getUserData() == null || fixtureB.getBody().getUserData() == null)){
 
                 if(fixtureA.getBody().getUserData() instanceof Shoot){
-                    gameObjects.remove(fixtureA.getBody().getUserData());
-                    world.destroyBody(fixtureA.getBody());
-                    ((Shoot) fixtureA.getBody().getUserData()).stopRenderEntity();
+                    removeBody = true;
+                    bodiesToRemove.add(fixtureA.getBody());
+
                 }else if(fixtureB.getBody().getUserData() instanceof Shoot) {
-                    gameObjects.remove(fixtureB.getBody().getUserData());
-                    world.destroyBody(fixtureB.getBody());
-                    ((Shoot) fixtureB.getBody().getUserData()).stopRenderEntity();
-                }
-            }
+                    removeBody = true;
+                    bodiesToRemove.add(fixtureB.getBody());
+
+
+                }else removeBody = false;
+            }else removeBody = false;
         }
 
         @Override

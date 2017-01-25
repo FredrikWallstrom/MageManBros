@@ -72,14 +72,4 @@ public class Shoot extends Entity {
             }
         }
     }
-
-    @Override
-    public void stopRenderEntity(){
-        activeShootsWithDirection.remove(this);
-
-    }
-
-
-
-
 }
