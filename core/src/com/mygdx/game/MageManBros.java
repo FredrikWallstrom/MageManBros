@@ -3,8 +3,13 @@ package com.mygdx.game;
 import com.badlogic.gdx.Game;
 import com.mygdx.game.screens.MenuScreen;
 
+/**
+ * Class that will be run first on startup.
+ * It will make a call on the MenuScreen so it will be populated first.
+ */
 public class MageManBros extends Game {
 
+    // Some constants for the game.
 	public static final int V_WIDTH = 400;
 	public static final int V_HEIGHT = 208;
 	public static final float PPM = 100;

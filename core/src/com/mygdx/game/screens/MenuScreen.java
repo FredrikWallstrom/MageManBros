@@ -13,39 +13,48 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MageManBros;
 
 /**
- * Created by fredr on 2016-11-11.
+ * This class will display the menu screen when the game is started up.
  */
-
 public class MenuScreen implements Screen {
+
+    // The current window that the game is running on.
     private MageManBros window;
 
+    // This stage will handle viewport and distribute input events.
+    // So basically buttons can be added to this stage to represent them.
     private Stage stage;
-    private Texture myTexture;
-    private TextureRegion myTextureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
-    private ImageButton playButton;
 
+    /**
+     * Constructor, exists so we can create an instance of this menuscreen.
+     */
     public MenuScreen(MageManBros window) {
         this.window = window;
     }
 
     /**
-     * interfaceMethod
+     * InterfaceMethod
      * called when screen is set with SetScreen
      */
     @Override public void show() {
-        myTexture = new Texture(Gdx.files.internal("playbtn.png"));
-        myTextureRegion = new TextureRegion(myTexture);
-        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        playButton = new ImageButton(myTexRegionDrawable); //Set the playButton up
+        // Create the playButton, set image, size and position.
+        Texture myTexture = new Texture(Gdx.files.internal("playbtn.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        ImageButton playButton = new ImageButton(myTexRegionDrawable);
         playButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
         playButton.setPosition(Gdx.graphics.getWidth() / 2 - (MageManBros.BUTTON_SIZE_WIDTH / 2),
                             Gdx.graphics.getHeight() / 2 - (MageManBros.BUTTON_SIZE_HEIGHT / 2) );
 
-        stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
-        stage.addActor(playButton); //Add the playButton to the stage to perform rendering and take input.
-        Gdx.input.setInputProcessor(stage); //Start taking input from the ui
+        // Set up the stage for the UI
+        stage = new Stage(new ScreenViewport());
 
+        // Add the playButton to the stage to perform rendering and take input.
+        stage.addActor(playButton);
+
+        // Start taking input from the UI.
+        Gdx.input.setInputProcessor(stage);
+
+        // ClickListener for the play button, switch screen to GameScreen when button is pushed.
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -56,6 +65,11 @@ public class MenuScreen implements Screen {
         });
     }
 
+    /**
+     * This method will be called when the application should render itself.
+     * @param delta is the time between the start of the previous and the start of the current call
+     *              to render().
+     */
     @Override
     public void render(float delta) {
         stage.draw();
@@ -81,6 +95,9 @@ public class MenuScreen implements Screen {
 
     }
 
+    /**
+     * Called when he application is destroyed
+     */
     @Override
     public void dispose() {
         stage.dispose();

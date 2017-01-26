@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -32,85 +31,92 @@ import static com.badlogic.gdx.Gdx.gl;
 
 public class GameScreen implements Screen {
 
+    // Current game and the batch that we can fill with creatures.
     private SpriteBatch batch;
-    private MageManBros window;
-    private Hud hud;
     private Game currentGame;
 
+    // This hud is for the health points and for the score.
+    private Hud hud;
 
     // Camera and Viewport variables
     private OrthographicCamera gameCam;
     private Viewport gamePort;
 
-    // Tiled map variables
-    private TmxMapLoader mapLoader;
+    // The map variable and renderer variable that will render the map.
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
-    // Box2d variables
+    // Box2d variables.
     private World world;
     private Box2DDebugRenderer b2dr;
 
 
-
+    /**
+     * Constructor that will initialize the variables and create the world.
+     * It will call the Game engine, depend on the game is running on Android mode or not.
+     */
     public GameScreen(MageManBros window) {
-        this.window = window;
+        // Create our batch that we can fill with creatures to be drawn.
         this.batch = new SpriteBatch();
 
-        // Create our game HUD for scores/timers/level info
+        // Create our game HUD for score and health point info.
         this.hud = new Hud(batch);
-
-
 
         // Create a StretchViewport and Camera to adjust the parallel projection.
         gameCam = new OrthographicCamera();
         gamePort = new StretchViewport(MageManBros.V_WIDTH / MageManBros.PPM, MageManBros.V_HEIGHT / MageManBros.PPM, gameCam);
 
-        // Load our map and setup our map renderer
-        mapLoader = new TmxMapLoader();
+        // Load our map and setup our map renderer.
+        TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("level1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / MageManBros.PPM);
 
-        // Initially set our gamecam to be centered correctly at the start
+        // Initially set our gameCam to be centered correctly at the start.
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
-        // Create our Box2D world, setting no gravity in X and no gravity in Y, allows bodies to sleep
+        // Create our Box2D world, setting no gravity in X and no gravity in Y, allows bodies to sleep.
         world = new World(new Vector2(0, -10), true);
-        // Allows for debug lines of our Box2D world
+        // Allows for debug lines of our Box2D world.
         b2dr = new Box2DDebugRenderer();
 
-        // Create an instance of the world creator that render all fixtures
+        // Create an instance of the world creator that render all fixtures.
         new B2WorldCreator(world, map);
 
-        // Check if the game is running on Android device
-        // Start the game
+        // Check if the game is running on Android device.
+        // Start the game.
         if(Gdx.app.getType() == Application.ApplicationType.Android) currentGame = new AndroidGame(world, map, gameCam, renderer);
         else currentGame = new DesktopGame(world, map, gameCam, renderer);
     }
 
+    /**
+     * This function will be called when the application should render itself.
+     */
     @Override
     public void render(float delta) {
-        // Clear the game screen
+        // Clear the game screen.
         gl.glClearColor(0, 0, 0, 1);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Render our game map
+        // Render our game map.
         renderer.render();
 
-        // Render our Box2DDebugLines
+        // Render our Box2DDebugLines.
         b2dr.render(world, gameCam.combined);
 
         // Set our batch to now draw what the Hud camera sees.
         batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
-        // Update logic
+        // Update logic.
         currentGame.updateGame(delta, batch);
     }
 
     @Override
     public void show() {}
 
+    /**
+     * Called when the application is resized
+     */
     @Override
     public void resize(int width, int height) {
         gamePort.update(width, height);
@@ -125,6 +131,9 @@ public class GameScreen implements Screen {
     @Override
     public void hide() {}
 
+    /**
+     * Called when he application is destroyed
+     */
     @Override
     public void dispose() {
         map.dispose();
