@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.MageManBros;
 
 /**
- * Created by fredr on 2016-11-13.
+ * This class will build the world. It will go through the map objects and build them.
  */
 
 public class B2WorldCreator {
