@@ -24,7 +24,6 @@ public abstract class Entity extends Sprite {
         this.bounds = bounds;
     }
 
-
     /**
      * Update function that can be overridden by the subclasses.
      * @param dt is the time between the start of the previous and the start of the current call
