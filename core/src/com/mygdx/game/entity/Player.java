@@ -8,32 +8,29 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.MageManBros;
 import com.mygdx.game.game.Game;
 
+import static com.mygdx.game.MageManBros.PPM;
+
 /**
- * Created by fredr on 2016-11-13.
+ * Subclass to Entity. It will represent the player in the game and their behavior.
  */
 
 public class Player extends Entity {
-    public enum State {JUMPING, STANDING, RUNNING, CROUCHING, SHOOTING}
+    // Enum that represent all available states for the player.
+    private enum State {JUMPING, STANDING, RUNNING, CROUCHING, SHOOTING}
 
-    public State currentState;
-    public State previousState;
+    private State currentState;
+    private State previousState;
 
     private Body body;
     private Animation megaManRun;
-    protected boolean runningRight;
+    private boolean runningRight;
     private float stateTimer;
 
-    /* Texture region that will be applied for the image to the player*/
+    // Texture region that will be applied for the image to the player.
     private TextureRegion megaManStand;
     private TextureRegion megaManJump;
     private TextureRegion megaManCrouch;
@@ -42,34 +39,30 @@ public class Player extends Entity {
     public Player(World world, TiledMap map, Rectangle bounds, Game game) {
         super(world, map, bounds, game);
 
+        // Player will standing to the right at initializing point.
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
 
+        // Array there we can build up animation frames.
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
-        /* TODO The animation is working, Need to remove the 3 picture since it is to big
+        /* TODO The animation is working, Need to remove the third picture since it is to big
         TODO and will make the animation to look aweful. Dont got time with that now, will do it later.*/
+        // Build up an animation, add all pictures to the frame.
         for (int i = 0; i < 6; i++)
             if (i > 3) frames.add(new TextureRegion(getTexture(), (40 * (i - 4)) + 434, 3, 32, 52));
             else if (i < 3) frames.add(new TextureRegion(getTexture(), (40 * i) + 268, 3, 32, 52));
 
         megaManRun = new Animation(0.1f, frames);
         frames.clear();
+
+        // Create Bodydef.
         BodyDef bdef = new BodyDef();
+        bdef.position.set(32 / PPM, 32 / PPM);
 
-        bdef.position.set(32 / MageManBros.PPM, 32 / MageManBros.PPM);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(7 / MageManBros.PPM);
-        fdef.shape = shape;
-        body.createFixture(fdef);
-
-        /* Attach the image to the player, depending on the STATE */
+        // Attach the image to the player, depending on the STATE
         megaManJump = new TextureRegion(getTexture(), 62, 3, 33, 56);
         megaManStand = new TextureRegion(getTexture(), 762, 3, 37, 53);
         megaManShoot = new TextureRegion(getTexture(), 712, 3, 42, 53);
@@ -77,20 +70,34 @@ public class Player extends Entity {
         megaManCrouch.setRegionHeight(50);
         megaManCrouch.setRegionWidth(50);
 
-        setBounds(0, 0, 16 / MageManBros.PPM, 16 / MageManBros.PPM);
+        setBounds(0, 0, 16 / PPM, 16 / PPM);
+        body = defineBody(bdef, 7);
         body.setUserData(this);
     }
 
+    /**
+     * Overridden function from the superclass. This function will be called by the game loop
+     * every time the game should be updated.
+     * It will just set the position of the picture image.
+     * @param dt is the time between the start of the previous and the start of the current call
+     *           to render().
+     */
     @Override
     public void update(float dt) {
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
     }
 
-    public TextureRegion getFrame(float dt) {
-        currentState = getState();
+    /**
+     * Helper function that will return the right region for the update function.
+     * @param dt dt is the time between the start of the previous and the start of the current call
+     *           to render().
+     * @return the right frame that is currently represent the player.
+     */
+    private TextureRegion getFrame(float dt) {
         TextureRegion region;
-        switch (currentState) {
+        // Check with state the player is in.
+        switch (getState()) {
             case SHOOTING:
                 region = megaManShoot;
                 break;
@@ -112,6 +119,8 @@ public class Player extends Entity {
 
         }
 
+        // Check if the player is running right or left, and flip the picture so it corresponds to
+        // the right option.
         if ((body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
             runningRight = false;
@@ -120,12 +129,17 @@ public class Player extends Entity {
             runningRight = true;
         }
 
+        // If currentState equal to previousState, increment stateTimer, else start it over.
         stateTimer = currentState == previousState ? stateTimer + dt : 0;
         previousState = currentState;
         return region;
     }
 
-    public State getState() {
+    /**
+     * Help function that will check which state the player is in for the moment.
+     * @return the state for the player.
+     */
+    private State getState() {
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             return State.SHOOTING;
         } else if (body.getLinearVelocity().y != 0 || (body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {

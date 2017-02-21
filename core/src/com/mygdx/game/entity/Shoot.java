@@ -50,6 +50,7 @@ public class Shoot extends Entity {
     /**
      * Overridden function from the superclass. This function will be called by the game loop
      * every time the game should be updated.
+     * It will just set the position and velocity of the picture image.
      * @param dt is the time between the start of the previous and the start of the current call
      *           to render().
      */
