@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MageManBros;
 
 /**
- * Created by fredr on 2016-12-10.
+ * Subclass that will be used if the game is running on Android environment.
  */
 
 public class AndroidGame extends Game{
@@ -31,12 +31,24 @@ public class AndroidGame extends Game{
     private boolean isForwardTouched = false;
     private boolean isBackwardTouched = false;
 
-
+    /**
+     * Constructor that will call the superclass constructor and than render som extra buttons
+     * for the Android environment.
+     */
     public AndroidGame(World world, TiledMap map, OrthographicCamera gameCam, OrthogonalTiledMapRenderer renderer) {
         super(world, map, gameCam, renderer);
         renderExtraButtons();
     }
 
+    /**
+     * First it will draw the extra buttons.
+     * Secondly it will check if the forward or backward button is pressed,
+     * if so, it will move the player in right direction.
+     * Thirdly it will call the superclass method for the game loop.
+     * @param delta is the time between the start of the previous and the start of the current call
+     *           to render().
+     * @param batch used to draw the all gameObjects.
+     */
     @Override
     public void updateGame(float delta, SpriteBatch batch){
         stage.draw();
@@ -45,6 +57,11 @@ public class AndroidGame extends Game{
         super.updateGame(delta, batch);
     }
 
+    /**
+     * This function is pretty straight forward, it will just render extra buttons for
+     * for the Android environment.
+     * After that it will add som listeners for all buttons.
+     */
     private void renderExtraButtons(){
         TextureRegionDrawable moveRegionDrawable;
         TextureRegionDrawable jumpRegionDrawable;
@@ -79,7 +96,9 @@ public class AndroidGame extends Game{
         shootButtonLeft.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
         shootButtonLeft.setPosition(0, MageManBros.BUTTON_SIZE_HEIGHT * 2 + 40);
 
-        stage = new Stage(new ScreenViewport()); //Set up a stage for the ui
+        // Set up a stage for the UI.
+        stage = new Stage(new ScreenViewport());
+
         // Add the buttons to the stage to perform rendering and take input.
         stage.addActor(forwardButton);
         stage.addActor(backwardButton);
@@ -87,8 +106,11 @@ public class AndroidGame extends Game{
         stage.addActor(jumpButtonLeft);
         stage.addActor(shootButtonLeft);
         stage.addActor(shootButtonRight);
-        Gdx.input.setInputProcessor(stage); //Start taking input from the ui
 
+        // Start taking input from the UI.
+        Gdx.input.setInputProcessor(stage);
+
+        // Add listeners for all buttons.
         forwardButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
