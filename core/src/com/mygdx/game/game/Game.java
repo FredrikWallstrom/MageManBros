@@ -20,22 +20,24 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.Player;
 import com.mygdx.game.entity.Shoot;
-
+import com.sun.xml.internal.bind.v2.TODO;
 
 import java.util.ArrayList;
 
 /**
- * Created by fredr on 2016-11-05.
+ * Superclass that will act like a game engine.
+ * This is a superclass since I will make the game available on both Android and desktop environment.
+ * There are different implementations for these two environments, but the most is the same.
  */
 
 public abstract class Game {
     // Tiled map variables
     protected World world;
     private TiledMap map;
-    protected OrthogonalTiledMapRenderer renderer;
+    private OrthogonalTiledMapRenderer renderer;
 
     // Camera and Viewport variables
-    protected OrthographicCamera gameCam;
+    private OrthographicCamera gameCam;
 
     // The only player in the game
     public static Player player;
@@ -50,10 +52,13 @@ public abstract class Game {
     // ContactListener
     private MyContactListener myContactListener = new MyContactListener();
 
+    // Boolean and array used to remove bodies that should be deleted from game.
     private boolean removeBody = false;
     private Array<Body> bodiesToRemove = new Array<Body>();
 
-
+    /**
+     * Constructor.
+     */
     public Game(World world, TiledMap map, OrthographicCamera gameCam, OrthogonalTiledMapRenderer renderer) {
         this.world = world;
         this.map = map;
@@ -62,26 +67,38 @@ public abstract class Game {
         this.gameObjects = new ArrayList<Entity>();
         this.atlas = new TextureAtlas("MegaMan.txt");
 
+        // Initialize contactListener and create one player.
         world.setContactListener(myContactListener);
         createPlayer();
     }
 
-
+    /**
+     * Creates one player and add the player object to the list with all gameObjects.
+     */
     private void createPlayer() {
         player = new Player(world, map, new Rectangle(32, 32, 32, 32), this);
-
         gameObjects.add(player);
     }
 
-    public Iterable<Entity> getGameObjects() {
+    /**
+     *
+     * @return the list with all available gameObjects in the game in this moment.
+     */
+    private Iterable<Entity> getGameObjects() {
         return gameObjects;
     }
 
+    /**
+     * This function is the is the game loop.
+     * It will forward the word and check for common updates in the game since last time.
+     * @param delta is the time between the start of the previous and the start of the current call
+     *           to render().
+     * @param batch used to draw the all gameObjects.
+     */
     public void updateGame(float delta, SpriteBatch batch) {
-
-
         world.step(1/60f, 6, 2);
 
+        // Check if there is any objects to remove from the world, after that clear the array.
         if(removeBody){
             for (Body body : bodiesToRemove) {
                 gameObjects.remove(body.getUserData());
@@ -90,18 +107,18 @@ public abstract class Game {
             bodiesToRemove.clear();
         }
 
-
-
+        // Go through every entity and do an update for them (render them again typically).
         for (Entity entity : getGameObjects()) {
             entity.update(delta);
 
         }
+
+        // Update the camera.
         gameCam.position.x = player.getBody().getPosition().x;
         gameCam.update();
-
         renderer.setView(gameCam);
 
-        // Render the attached fixture on the body
+        // Render the attached fixture on the body.
         batch.setProjectionMatrix(gameCam.combined);
         batch.begin();
         for (Entity entity: getGameObjects()) {
@@ -110,22 +127,10 @@ public abstract class Game {
         batch.end();
     }
 
-    protected void handleInput(float dt){
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            player.getBody().applyLinearImpulse(new Vector2(0, 04), player.getBody().getWorldCenter(), true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.getBody().getLinearVelocity().x <= 2){
-            player.getBody().applyLinearImpulse(new Vector2(0.1f, 0), player.getBody().getWorldCenter(), true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.getBody().getLinearVelocity().x >= -2){
-            player.getBody().applyLinearImpulse(new Vector2(-0.1f, 0), player.getBody().getWorldCenter(), true);
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            createShoot();
-        }
-        }
-
-    private void createShoot() {
+    /**
+     * This function will create a shoot and add the shoot object to the gameObjects array.
+     */
+    protected void createShoot() {
         Shoot shoot = new Shoot(world, map, new Rectangle(32, 32, 32, 32), this);
         gameObjects.add(shoot);
     }
@@ -134,8 +139,12 @@ public abstract class Game {
         return atlas;
     }
 
-
-
+    /**
+     * Private class for the contactListener functions.
+     * This contactListener is to detect contact between objects.
+     * For example: If there is contact between one shoot and the wall,
+     * beginContact function is called and the shoot needs to be removed.
+     */
     private class MyContactListener implements ContactListener {
 
         @Override
@@ -143,7 +152,7 @@ public abstract class Game {
             Fixture fixtureA = contact.getFixtureA();
             Fixture fixtureB = contact.getFixtureB();
 
-            // A shoot is colliding with a wall.
+            // A shoot is colliding with a wall. NULL value is representing the wall.
             if ((fixtureA.getBody().getUserData() == null || fixtureB.getBody().getUserData() == null)){
 
                 if(fixtureA.getBody().getUserData() instanceof Shoot){
@@ -157,21 +166,21 @@ public abstract class Game {
 
                 }else removeBody = false;
             }else removeBody = false;
+
+            // TODO: Implement more contact cases. If a shoot is colliding with an enemy
+            // TODO: or if an enemy is colliding with the player
         }
 
         @Override
         public void endContact(Contact contact) {
-
         }
 
         @Override
         public void preSolve(Contact contact, Manifold oldManifold) {
-
         }
 
         @Override
         public void postSolve(Contact contact, ContactImpulse impulse) {
-
         }
     }
 }
