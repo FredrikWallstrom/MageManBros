@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.MageManBros;
 
+import static com.mygdx.game.MageManBros.BUTTON_SIZE_HEIGHT;
+import static com.mygdx.game.MageManBros.BUTTON_SIZE_WIDTH;
+
 /**
  * Subclass that will be used if the game is running on Android environment.
  */
@@ -83,18 +86,18 @@ public class AndroidGame extends Game{
         shootButtonRight = new ImageButton(shootRegionDrawable);
         shootButtonLeft = new ImageButton(shootRegionDrawable);
 
-        forwardButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
-        forwardButton.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, 0);
-        backwardButton.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
+        forwardButton.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
+        forwardButton.setPosition(Gdx.graphics.getWidth() - BUTTON_SIZE_WIDTH, 0);
+        backwardButton.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
         backwardButton.setPosition(0, 0);
-        jumpButtonRight.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
-        jumpButtonRight.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT + 20);
-        jumpButtonLeft.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
-        jumpButtonLeft.setPosition(0, MageManBros.BUTTON_SIZE_HEIGHT + 20);
-        shootButtonRight.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
-        shootButtonRight.setPosition(Gdx.graphics.getWidth() - MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT * 2 + 40);
-        shootButtonLeft.setSize(MageManBros.BUTTON_SIZE_WIDTH, MageManBros.BUTTON_SIZE_HEIGHT);
-        shootButtonLeft.setPosition(0, MageManBros.BUTTON_SIZE_HEIGHT * 2 + 40);
+        jumpButtonRight.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
+        jumpButtonRight.setPosition(Gdx.graphics.getWidth() - BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT + 20);
+        jumpButtonLeft.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
+        jumpButtonLeft.setPosition(0, BUTTON_SIZE_HEIGHT + 20);
+        shootButtonRight.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
+        shootButtonRight.setPosition(Gdx.graphics.getWidth() - BUTTON_SIZE_WIDTH - 80, BUTTON_SIZE_HEIGHT * 2 + 40);
+        shootButtonLeft.setSize(BUTTON_SIZE_WIDTH, BUTTON_SIZE_HEIGHT);
+        shootButtonLeft.setPosition(BUTTON_SIZE_HEIGHT, BUTTON_SIZE_HEIGHT * 2 + 40);
 
         // Set up a stage for the UI.
         stage = new Stage(new ScreenViewport());
